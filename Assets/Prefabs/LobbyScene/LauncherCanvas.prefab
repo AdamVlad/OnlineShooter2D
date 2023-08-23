@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3429d74ceaa40b94daf541b7bcd6e0f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: Assets.Scripts.ViewModel.Buttons.CreateRoomButtonViewModel.OnClick
+  viewModelMethodName: Assets.Scripts.LobbyScene.ViewModel.Buttons.CreateRoomButtonViewModel.OnClick
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!1 &1350120770648644805
 GameObject:
@@ -570,7 +570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7a30d239f1d7d4c98f0ef36b8176a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelPropertyName: Assets.Scripts.ViewModel.Fields.JoinedRoomInputFieldViewModel.Text
+  viewModelPropertyName: Assets.Scripts.LobbyScene.ViewModel.Fields.JoinedRoomInputFieldViewModel.Text
   viewEventName: UnityEngine.UI.InputField.onValueChanged
   viewPropertyName: UnityEngine.UI.InputField.text
   viewAdapterTypeName: 
@@ -1887,7 +1887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7a30d239f1d7d4c98f0ef36b8176a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelPropertyName: Assets.Scripts.ViewModel.Fields.CreatedRoomInputFieldViewModel.Text
+  viewModelPropertyName: Assets.Scripts.LobbyScene.ViewModel.Fields.CreatedRoomInputFieldViewModel.Text
   viewEventName: UnityEngine.UI.InputField.onValueChanged
   viewPropertyName: UnityEngine.UI.InputField.text
   viewAdapterTypeName: 
@@ -2279,7 +2279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3429d74ceaa40b94daf541b7bcd6e0f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: Assets.Scripts.ViewModel.Buttons.LeaveGameButtonViewModel.OnClick
+  viewModelMethodName: Assets.Scripts.LobbyScene.ViewModel.Buttons.LeaveGameButtonViewModel.OnClick
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!114 &9116254725895273754
 MonoBehaviour:
@@ -2730,7 +2730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7a30d239f1d7d4c98f0ef36b8176a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelPropertyName: Assets.Scripts.ViewModel.Fields.LoginInputFieldViewModel.Text
+  viewModelPropertyName: Assets.Scripts.LobbyScene.ViewModel.Fields.LoginInputFieldViewModel.Text
   viewEventName: UnityEngine.UI.InputField.onValueChanged
   viewPropertyName: UnityEngine.UI.InputField.text
   viewAdapterTypeName: 
@@ -3321,7 +3321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3429d74ceaa40b94daf541b7bcd6e0f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: Assets.Scripts.ViewModel.Buttons.LoginButtonViewModel.OnClick
+  viewModelMethodName: Assets.Scripts.LobbyScene.ViewModel.Buttons.LoginButtonViewModel.OnClick
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!114 &6514765183664456478
 MonoBehaviour:
@@ -3748,7 +3748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3429d74ceaa40b94daf541b7bcd6e0f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: Assets.Scripts.ViewModel.Buttons.JoinRoomButtonViewModel.OnClick
+  viewModelMethodName: Assets.Scripts.LobbyScene.ViewModel.Buttons.JoinRoomButtonViewModel.OnClick
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!1 &7710411513266435125
 GameObject:
@@ -4186,7 +4186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3429d74ceaa40b94daf541b7bcd6e0f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewModelMethodName: Assets.Scripts.ViewModel.Buttons.StartGameButtonViewModel.OnClick
+  viewModelMethodName: Assets.Scripts.LobbyScene.ViewModel.Buttons.StartGameButtonViewModel.OnClick
   viewEventName: UnityEngine.UI.Button.onClick
 --- !u!114 &7518523729277923241
 MonoBehaviour:
