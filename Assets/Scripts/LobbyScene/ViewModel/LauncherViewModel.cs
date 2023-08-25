@@ -10,7 +10,7 @@ using Zenject;
 
 namespace Assets.Scripts.LobbyScene.ViewModel
 {
-    public class LauncherViewModel : MonoBehaviourPunCallbacks
+    internal class LauncherViewModel : MonoBehaviourPunCallbacks
     {
         [Inject] private readonly ICanvasModel _canvasModel;
         

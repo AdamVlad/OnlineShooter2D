@@ -33,5 +33,8 @@ namespace Assets.Scripts.BattleScene.Model.Settings
 
         [SerializeField] private string _velocity = "Velocity";
         public string Velocity => _velocity;
+
+        [SerializeField] private string _shootTrigger = "Shoot";
+        public string ShootTrigger => _shootTrigger;
     }
 }

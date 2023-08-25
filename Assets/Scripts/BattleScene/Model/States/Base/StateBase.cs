@@ -2,7 +2,6 @@ namespace Assets.Scripts.BattleScene.Model.States.Base
 {
     internal abstract class StateBase
     {
-
         public virtual void Enter()
         {
         }

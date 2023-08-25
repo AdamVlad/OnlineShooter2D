@@ -9,5 +9,6 @@
         string InputAxisXHatch { get; }
         string InputAxisYHatch { get; }
         string Velocity { get; }
+        string ShootTrigger { get; }
     }
 }

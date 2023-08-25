@@ -4,33 +4,41 @@ using Assets.Scripts.BattleScene.Model.Settings;
 using Assets.Scripts.BattleScene.Model.States;
 using Assets.Scripts.BattleScene.Model.States.Base;
 using Assets.Scripts.BattleScene.Model.States.Interfaces;
+
+using Photon.Pun;
 using UnityEngine;
 
 namespace Assets.Scripts.BattleScene.ViewModel
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(
+        typeof(CapsuleCollider2D),
+        typeof(Rigidbody2D),
+        typeof(PhotonView))]
     internal class PlayerViewModel : MonoBehaviour
     {
         [SerializeField] private PlayerSettings _playerSettings;
 
+        private PhotonView _photonView;
+
+        private IPlayerInput _playerInput;
+        private IStateMachine _stateMachine;
+        private StateBase _idleState;
+        private StateBase _walkState;
+        private StateBase _shootState;
+
         private void Awake()
         {
-            _playerInput = new PlayerInput(new PlayerControls());
+            _photonView = GetComponent<PhotonView>();
+            if (!_photonView.AmOwner) return;
 
-            var animator = gameObject.TryGetComponentInChildrenOrThrowException<Animator>();
-            var rigidbody = gameObject.TryGetComponentOrThrowException<Rigidbody2D>();
-
-            _stateMachine = new StateMachine();
-            _idleState = new IdleState(animator, rigidbody, _playerInput, _playerSettings);
-            _walkState = new WalkState(animator, rigidbody, _playerInput, _playerSettings);
-            _shootState = new ShootState(animator, rigidbody, _playerInput, _playerSettings, _stateMachine);
-
-            _stateMachine.Initialize(_idleState);
-            _playerInput.Initialize();
+            InitializeInput();
+            InitializeStates();
         }
 
         private void OnEnable()
         {
+            if (!_photonView.AmOwner) return;
+
             _playerInput.PlayerShot += OnPlayerShot;
             _playerInput.PlayerStartedMoving += OnPlayerStartedMoving;
             _playerInput.PlayerStopped += OnPlayerStopped;
@@ -40,6 +48,8 @@ namespace Assets.Scripts.BattleScene.ViewModel
 
         private void OnDisable()
         {
+            if (!_photonView.AmOwner) return;
+
             _playerInput.PlayerShot -= OnPlayerShot;
             _playerInput.PlayerStartedMoving -= OnPlayerStartedMoving;
             _playerInput.PlayerStopped -= OnPlayerStopped;
@@ -49,33 +59,46 @@ namespace Assets.Scripts.BattleScene.ViewModel
 
         private void Update()
         {
-            _stateMachine.CurrentState.Update();
+            _stateMachine?.CurrentState.Update();
         }
 
         private void FixedUpdate()
         {
-            _stateMachine.CurrentState.FixedUpdate();
+            _stateMachine?.CurrentState.FixedUpdate();
         }
 
         private void OnPlayerShot()
         {
-            _stateMachine.ChangeState(_shootState);
+            _stateMachine?.ChangeState(_shootState);
         }
 
         private void OnPlayerStartedMoving()
         {
-            _stateMachine.ChangeState(_walkState);
+            _stateMachine?.ChangeState(_walkState);
         }
 
         private void OnPlayerStopped()
         {
-            _stateMachine.ChangeState(_idleState);
+            _stateMachine?.ChangeState(_idleState);
         }
 
-        private IPlayerInput _playerInput;
-        private IStateMachine _stateMachine;
-        private StateBase _idleState;
-        private StateBase _walkState;
-        private StateBase _shootState;
+        private void InitializeInput()
+        {
+            _playerInput = new PlayerInput(new PlayerControls());
+            _playerInput.Initialize();
+        }
+
+        private void InitializeStates()
+        {
+            var animator = gameObject.TryGetComponentInChildrenOrThrowException<Animator>();
+
+            _stateMachine = new StateMachine();
+
+            _idleState = new IdleState(animator, _playerInput, _playerSettings);
+            _walkState = new WalkState(animator, gameObject.transform, _playerInput, _playerSettings);
+            _shootState = new ShootState(animator, _playerInput, _playerSettings, _stateMachine);
+
+            _stateMachine.Initialize(_idleState);
+        }
     }
 }

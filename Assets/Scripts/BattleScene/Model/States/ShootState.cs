@@ -10,13 +10,11 @@ namespace Assets.Scripts.BattleScene.Model.States
     {
         public ShootState(
             Animator animator,
-            Rigidbody2D rigidbody,
             IPlayerInput playerInput,
             IPlayerSettings playerSettings,
             IStateMachine stateMachine)
         {
             _animator = animator;
-            _rigidBody = rigidbody;
             _playerInput = playerInput;
             _playerSettings = playerSettings;
             _stateMachine = stateMachine;
@@ -26,9 +24,7 @@ namespace Assets.Scripts.BattleScene.Model.States
         {
             _shootDelay = _playerSettings.ShootDelay;
 
-            _rigidBody.velocity = Vector2.zero;
-
-            _animator.SetTrigger("Shoot");
+            _animator.SetTrigger(_playerSettings.ShootTrigger);
             _animator.SetFloat(_playerSettings.InputAxisX, 0);
             _animator.SetFloat(_playerSettings.InputAxisY, 0);
             _animator.SetFloat(_playerSettings.Velocity, 0);
@@ -53,7 +49,6 @@ namespace Assets.Scripts.BattleScene.Model.States
         private float _shootDelay;
 
         private readonly Animator _animator;
-        private readonly Rigidbody2D _rigidBody;
         private readonly IPlayerInput _playerInput;
         private readonly IPlayerSettings _playerSettings;
         private readonly IStateMachine _stateMachine;

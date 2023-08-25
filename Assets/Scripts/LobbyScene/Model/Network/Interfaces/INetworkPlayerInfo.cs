@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.LobbyScene.Model.Network.Interfaces
 {
-    internal interface INetworkPlayerInfo
+    public interface INetworkPlayerInfo
     {
         string Name { get; set; }
 
