@@ -10,8 +10,6 @@ namespace Assets.Scripts.LobbyScene.ViewModel.Buttons
         [Binding]
         public void OnClick()
         {
-            Debug.Log("Start game button clicked");
-
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
@@ -20,7 +18,7 @@ namespace Assets.Scripts.LobbyScene.ViewModel.Buttons
                 PhotonNetwork.LeaveLobby();
             }
 
-            //PhotonNetwork.LoadLevel("BattleScene");
+            PhotonNetwork.LoadLevel("BattleScene");
         }
     }
 }

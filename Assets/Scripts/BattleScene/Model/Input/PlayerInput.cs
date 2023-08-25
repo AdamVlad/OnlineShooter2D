@@ -11,6 +11,7 @@ namespace Assets.Scripts.BattleScene.Model.Input
             _playerControls = controls;
         }
 
+        public event Action PlayerShot;
         public event Action PlayerStartedMoving;
         public event Action PlayerStopped;
         public Vector2 InputAxis { get; private set; }
@@ -20,6 +21,8 @@ namespace Assets.Scripts.BattleScene.Model.Input
             _playerControls.InputActionMap.Move.started += OnStartedMoving;
             _playerControls.InputActionMap.Move.performed += OnMoved;
             _playerControls.InputActionMap.Move.canceled += OnStopped;
+
+            _playerControls.InputActionMap.Shoot.started += OnShot;
         }
 
         public void Enable()
@@ -30,6 +33,11 @@ namespace Assets.Scripts.BattleScene.Model.Input
         public void Disable()
         {
             _playerControls.Disable();
+        }
+
+        private void OnShot(InputAction.CallbackContext callback)
+        {
+            OnPlayerShot();
         }
 
         private void OnStartedMoving(InputAction.CallbackContext callback)
@@ -45,6 +53,11 @@ namespace Assets.Scripts.BattleScene.Model.Input
         private void OnMoved(InputAction.CallbackContext callback)
         {
             InputAxis = callback.ReadValue<Vector2>();
+        }
+
+        private void OnPlayerShot()
+        {
+            PlayerShot?.Invoke();
         }
 
         private void OnPlayerStartedMoving()

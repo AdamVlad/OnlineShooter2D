@@ -10,8 +10,6 @@ namespace Assets.Scripts.LobbyScene.ViewModel.Buttons
         [Binding]
         public void OnClick()
         {
-            Debug.Log("Leave game button clicked");
-
             PhotonNetwork.LeaveRoom();
         }
     }

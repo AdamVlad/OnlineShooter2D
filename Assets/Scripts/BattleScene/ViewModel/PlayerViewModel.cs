@@ -1,7 +1,9 @@
 using Assets.Scripts.BattleScene.Extensions;
 using Assets.Scripts.BattleScene.Model.Input;
+using Assets.Scripts.BattleScene.Model.Settings;
 using Assets.Scripts.BattleScene.Model.States;
 using Assets.Scripts.BattleScene.Model.States.Base;
+using Assets.Scripts.BattleScene.Model.States.Interfaces;
 using UnityEngine;
 
 namespace Assets.Scripts.BattleScene.ViewModel
@@ -9,6 +11,8 @@ namespace Assets.Scripts.BattleScene.ViewModel
     [RequireComponent(typeof(Rigidbody2D))]
     internal class PlayerViewModel : MonoBehaviour
     {
+        [SerializeField] private PlayerSettings _playerSettings;
+
         private void Awake()
         {
             _playerInput = new PlayerInput(new PlayerControls());
@@ -17,8 +21,9 @@ namespace Assets.Scripts.BattleScene.ViewModel
             var rigidbody = gameObject.TryGetComponentOrThrowException<Rigidbody2D>();
 
             _stateMachine = new StateMachine();
-            _idleState = new IdleState(animator, rigidbody);
-            _walkState = new WalkState(animator, rigidbody, _playerInput);
+            _idleState = new IdleState(animator, rigidbody, _playerInput, _playerSettings);
+            _walkState = new WalkState(animator, rigidbody, _playerInput, _playerSettings);
+            _shootState = new ShootState(animator, rigidbody, _playerInput, _playerSettings, _stateMachine);
 
             _stateMachine.Initialize(_idleState);
             _playerInput.Initialize();
@@ -26,6 +31,7 @@ namespace Assets.Scripts.BattleScene.ViewModel
 
         private void OnEnable()
         {
+            _playerInput.PlayerShot += OnPlayerShot;
             _playerInput.PlayerStartedMoving += OnPlayerStartedMoving;
             _playerInput.PlayerStopped += OnPlayerStopped;
 
@@ -34,6 +40,7 @@ namespace Assets.Scripts.BattleScene.ViewModel
 
         private void OnDisable()
         {
+            _playerInput.PlayerShot -= OnPlayerShot;
             _playerInput.PlayerStartedMoving -= OnPlayerStartedMoving;
             _playerInput.PlayerStopped -= OnPlayerStopped;
 
@@ -50,6 +57,11 @@ namespace Assets.Scripts.BattleScene.ViewModel
             _stateMachine.CurrentState.FixedUpdate();
         }
 
+        private void OnPlayerShot()
+        {
+            _stateMachine.ChangeState(_shootState);
+        }
+
         private void OnPlayerStartedMoving()
         {
             _stateMachine.ChangeState(_walkState);
@@ -64,5 +76,6 @@ namespace Assets.Scripts.BattleScene.ViewModel
         private IStateMachine _stateMachine;
         private StateBase _idleState;
         private StateBase _walkState;
+        private StateBase _shootState;
     }
 }

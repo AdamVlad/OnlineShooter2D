@@ -5,6 +5,7 @@ namespace Assets.Scripts.BattleScene.Model.Input
 {
     internal interface IPlayerInput
     {
+        event Action PlayerShot;
         event Action PlayerStartedMoving;
         event Action PlayerStopped;
 
