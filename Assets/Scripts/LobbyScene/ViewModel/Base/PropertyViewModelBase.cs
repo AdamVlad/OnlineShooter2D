@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.LobbyScene.ViewModel.Base
 {
-    internal abstract class PropertyViewModelBase : MonoBehaviour, INotifyPropertyChanged
+    public abstract class PropertyViewModelBase : MonoBehaviour, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

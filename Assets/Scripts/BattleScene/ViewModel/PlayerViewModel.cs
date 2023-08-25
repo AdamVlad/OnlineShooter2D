@@ -6,6 +6,7 @@ using Assets.Scripts.BattleScene.Model.States.Base;
 using Assets.Scripts.BattleScene.Model.States.Interfaces;
 
 using Photon.Pun;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.BattleScene.ViewModel
@@ -26,13 +27,16 @@ namespace Assets.Scripts.BattleScene.ViewModel
         private StateBase _walkState;
         private StateBase _shootState;
 
+        private HpBarViewModel _hpBar;
+
         private void Awake()
         {
             _photonView = GetComponent<PhotonView>();
-            if (!_photonView.AmOwner) return;
-
+            
             InitializeInput();
             InitializeStates();
+            InitializeHpBar();
+            InitializePlayerName();
         }
 
         private void OnEnable()
@@ -85,21 +89,35 @@ namespace Assets.Scripts.BattleScene.ViewModel
         [PunRPC]
         private void Shoot(Vector3 position, Vector2 direction)
         {
+            Debug.Log("Shoot");
+
             var shiftedPosition = new Vector3(position.x, position.y + 0.7f, position.z);
             var bullet = Instantiate(_playerSettings.Bullet, shiftedPosition, Quaternion.identity);
             bullet.Initialize(direction, _photonView.Owner);
+        }
+
+        [PunRPC]
+        private void TakeDamage(float damage)
+        {
+            _hpBar.Fill -= (Single)(damage / 100);
+
+            //if (_hpBar.CurrentHealth > 0) return;
         }
 
         #region Initialize
 
         private void InitializeInput()
         {
+            if (!_photonView.AmOwner) return;
+
             _playerInput = new PlayerInput(new PlayerControls());
             _playerInput.Initialize();
         }
 
         private void InitializeStates()
         {
+            if (!_photonView.AmOwner) return;
+
             var animator = gameObject.TryGetComponentInChildrenOrThrowException<Animator>();
 
             _stateMachine = new StateMachine();
@@ -109,6 +127,33 @@ namespace Assets.Scripts.BattleScene.ViewModel
             _shootState = new ShootState(animator, gameObject.transform, _photonView, _playerInput, _playerSettings, _stateMachine);
 
             _stateMachine.Initialize(_idleState);
+        }
+
+        private void InitializeHpBar()
+        {
+            var ownHpBar = gameObject.TryGetComponentInChildrenOrThrowException<HpBarViewModel>();
+
+            if (!_photonView.AmOwner)
+            {
+                _hpBar = ownHpBar;
+            }
+            else
+            {
+                Destroy(ownHpBar.gameObject);
+                ownHpBar.enabled = false;
+                _hpBar = GameObject.Find("HudCanvas").GetComponent<HpBarViewModel>();
+            }
+
+            _hpBar.Fill = 1;
+        }
+
+        private void InitializePlayerName()
+        {
+            if (!_photonView.AmOwner)
+            {
+                var playerNameBar = gameObject.TryGetComponentInChildrenOrThrowException<PlayerNameViewModel>();
+                playerNameBar.Name = _photonView.Owner.NickName;
+            }
         }
 
         #endregion

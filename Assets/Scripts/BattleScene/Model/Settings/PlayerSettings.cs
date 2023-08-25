@@ -20,6 +20,9 @@ namespace Assets.Scripts.BattleScene.Model.Settings
         [SerializeField] private float _shootPower = 0.2f;
         public float ShootPower => _shootPower;
 
+        [SerializeField] private float _shootDamage = 25f;
+        public float ShootDamage => _shootDamage;
+
         [SerializeField] private float _shootDelay = 0.6f;
         public float ShootDelay => _shootDelay;
 

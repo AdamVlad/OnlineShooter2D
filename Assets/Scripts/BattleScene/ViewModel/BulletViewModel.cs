@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.BattleScene.Model.Settings;
+
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -36,6 +37,11 @@ namespace Assets.Scripts.BattleScene.ViewModel
             if (other.TryGetComponent<PhotonView>(out var photonView))
             {
                 if (Equals(photonView.Owner, _owner)) return;
+
+                if (Equals(photonView.Owner, PhotonNetwork.LocalPlayer))
+                {
+                    photonView.RPC("TakeDamage", RpcTarget.AllViaServer, _playerSettings.ShootDamage);
+                }
             }
 
             Destroy(gameObject);

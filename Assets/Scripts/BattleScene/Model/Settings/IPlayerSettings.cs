@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.BattleScene.ViewModel;
-using UnityEngine;
 
 namespace Assets.Scripts.BattleScene.Model.Settings
 {
@@ -8,6 +7,7 @@ namespace Assets.Scripts.BattleScene.Model.Settings
         float WalkSpeed { get; }
         BulletViewModel Bullet { get; }
         float ShootPower { get; }
+        float ShootDamage{ get; }
         float ShootDelay { get; }
         string InputAxisX { get; }
         string InputAxisY { get; }
