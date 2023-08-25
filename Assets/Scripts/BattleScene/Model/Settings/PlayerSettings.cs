@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.BattleScene.ViewModel;
+using UnityEngine;
 
 namespace Assets.Scripts.BattleScene.Model.Settings
 {
@@ -12,6 +13,12 @@ namespace Assets.Scripts.BattleScene.Model.Settings
 
         [Space]
         [Header("Shoot Settings")]
+
+        [SerializeField] private BulletViewModel _bullet;
+        public BulletViewModel Bullet => _bullet;
+
+        [SerializeField] private float _shootPower = 0.2f;
+        public float ShootPower => _shootPower;
 
         [SerializeField] private float _shootDelay = 0.6f;
         public float ShootDelay => _shootDelay;

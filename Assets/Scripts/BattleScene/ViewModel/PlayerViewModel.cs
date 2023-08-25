@@ -82,6 +82,16 @@ namespace Assets.Scripts.BattleScene.ViewModel
             _stateMachine?.ChangeState(_idleState);
         }
 
+        [PunRPC]
+        private void Shoot(Vector3 position, Vector2 direction)
+        {
+            var shiftedPosition = new Vector3(position.x, position.y + 0.7f, position.z);
+            var bullet = Instantiate(_playerSettings.Bullet, shiftedPosition, Quaternion.identity);
+            bullet.Initialize(direction, _photonView.Owner);
+        }
+
+        #region Initialize
+
         private void InitializeInput()
         {
             _playerInput = new PlayerInput(new PlayerControls());
@@ -96,9 +106,11 @@ namespace Assets.Scripts.BattleScene.ViewModel
 
             _idleState = new IdleState(animator, _playerInput, _playerSettings);
             _walkState = new WalkState(animator, gameObject.transform, _playerInput, _playerSettings);
-            _shootState = new ShootState(animator, _playerInput, _playerSettings, _stateMachine);
+            _shootState = new ShootState(animator, gameObject.transform, _photonView, _playerInput, _playerSettings, _stateMachine);
 
             _stateMachine.Initialize(_idleState);
         }
+
+        #endregion
     }
 }

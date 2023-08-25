@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
   _walkSpeed: 0.04
+  _bullet: {fileID: 1166474927589085030, guid: f41b3a5b6b6d771478ea43dc5549cce7, type: 3}
+  _shootPower: 0.2
   _shootDelay: 0.6
   _inputAxisX: x
   _inputAxisY: y
   _inputAxisXHatch: x'
   _inputAxisYHatch: y'
   _velocity: Velocity
+  _shootTrigger: Shoot

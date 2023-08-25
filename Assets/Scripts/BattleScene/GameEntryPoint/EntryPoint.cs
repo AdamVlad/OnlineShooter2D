@@ -66,13 +66,10 @@ namespace Assets.Scripts.BattleScene.GameEntryPoint
             {
                 object playerLoadedLevel;
 
-                if (p.CustomProperties.TryGetValue(NetworkPlayerInfo.PlayerLoadedLevel, out playerLoadedLevel))
-                {
-                    if ((bool)playerLoadedLevel)
-                    {
-                        continue;
-                    }
-                }
+                if (!p.CustomProperties.TryGetValue(
+                        NetworkPlayerInfo.PlayerLoadedLevel, out playerLoadedLevel)) return false;
+
+                if ((bool)playerLoadedLevel) continue;
 
                 return false;
             }

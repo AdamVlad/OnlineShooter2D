@@ -1,8 +1,13 @@
-﻿namespace Assets.Scripts.BattleScene.Model.Settings
+﻿using Assets.Scripts.BattleScene.ViewModel;
+using UnityEngine;
+
+namespace Assets.Scripts.BattleScene.Model.Settings
 {
     internal interface IPlayerSettings
     {
         float WalkSpeed { get; }
+        BulletViewModel Bullet { get; }
+        float ShootPower { get; }
         float ShootDelay { get; }
         string InputAxisX { get; }
         string InputAxisY { get; }
