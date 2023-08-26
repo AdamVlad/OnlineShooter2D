@@ -1,7 +1,10 @@
+using Assets.Scripts.BattleScene.Model;
+using Assets.Scripts.BattleScene.ViewModel;
 using Assets.Scripts.LobbyScene.Model.Network;
 
 using Cinemachine;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,14 +22,21 @@ namespace Assets.Scripts.BattleScene.GameEntryPoint
 
         [SerializeField] private CinemachineVirtualCamera _camera;
 
+        [SerializeField] private WinnerTableViewModel _winnerTableViewModel;
+        [SerializeField] private LooserTableViewModel _looserTableViewModel;
+
         private void Start()
         {
             Hashtable props = new Hashtable
             {
-                {NetworkPlayerInfo.PlayerLoadedLevel, true}
+                {NetworkPlayerInfo.PlayerLoadedLevel, true},
+                {NetworkPlayerInfo.IsAlive, true}
             };
 
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+            _winnerTableViewModel.gameObject.SetActive(false);
+            _looserTableViewModel.gameObject.SetActive(false);
         }
 
         private void Update()
@@ -48,23 +58,22 @@ namespace Assets.Scripts.BattleScene.GameEntryPoint
 
         private void SpawnPlayers()
         {
-            var actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-            var countPlayerSpawnPositions = _playersSpawnPositions.Length;
-
-            if (0 < actorNumber && actorNumber <= countPlayerSpawnPositions)
+            int playerNumber = 0;
+            foreach (var player in PhotonNetwork.PlayerList)
             {
-                var spawnPosition = _playersSpawnPositions[actorNumber - 1];
+                if (player.IsLocal)
+                {
+                    _localPlayer = PhotonNetwork.Instantiate(
+                        _playerPrefab.name,
+                        _playersSpawnPositions[playerNumber].position,
+                        Quaternion.identity);
 
-                var player = PhotonNetwork.Instantiate(
-                    _playerPrefab.name,
-                    spawnPosition.position,
-                    Quaternion.identity);
+                    _camera.Follow = _localPlayer.transform;
 
-                _camera.Follow = player.transform;
-            }
-            else
-            {
-                Debug.Log("Creating player error");
+                    return;
+                }
+
+                playerNumber++;
             }
         }
 
@@ -114,46 +123,74 @@ namespace Assets.Scripts.BattleScene.GameEntryPoint
             CheckEndOfGame();
         }
 
+        public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+        {
+            if (changedProps.ContainsKey(NetworkPlayerInfo.IsAlive))
+            {
+                CheckEndOfGame();
+            }
+        }
+
         private void CheckEndOfGame()
         {
-            //bool allDestroyed = true;
+            if (_isLose) return;
 
-            //foreach (Player p in PhotonNetwork.PlayerList)
-            //{
-            //    object lives;
-            //    if (p.CustomProperties.TryGetValue(ZombielandGame.PLAYER_LIVES, out lives))
-            //    {
-            //        if ((int) lives > 0)
-            //        {
-            //            allDestroyed = false;
-            //            break;
-            //        }
-            //    }
-            //}
+            var countAlive = 0;
+            Player winner = null;
 
-            //if (allDestroyed)
-            //{
-            //    if (PhotonNetwork.IsMasterClient)
-            //    {
-            //        StopAllCoroutines();
-            //    }
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                if (!player.CustomProperties
+                        .TryGetValue(NetworkPlayerInfo.IsAlive, out var isAlive)) continue;
 
-            //    string winner = "";
-            //    int score = -1;
+                if ((bool)isAlive)
+                {
+                    winner = player;
+                    countAlive++;
+                }
+                else
+                {
+                    if (player.IsLocal)
+                    {
+                        _isLose = true;
+                        EndOfGame(player.GetScore(), false);
+                        return;
+                    }
+                }
+            }
 
-            //    foreach (Player p in PhotonNetwork.PlayerList)
-            //    {
-            //        if (p.GetScore() > score)
-            //        {
-            //            winner = p.NickName;
-            //            score = p.GetScore();
-            //        }
-            //    }
+            if (countAlive == 1)
+            {
+                EndOfGame(winner.GetScore(), true);
+            }
+        }
 
-            //    StartCoroutine(EndOfGame(winner, score));
-            //}
+        private void EndOfGame(int score, bool won)
+        {
+            if (won)
+            {
+                try
+                {
+                    _localPlayer.GetComponent<PlayerModel>().enabled = false;
+                }
+                catch
+                {
+                    Debug.Log("This exception occurs if one player enters the game, which " +
+                              "leads to an automatic win, but the component does not have time to initialize");
+                }
+
+                _winnerTableViewModel.gameObject.SetActive(true);
+                _winnerTableViewModel.Text = score.ToString();
+            }
+            else
+            {
+                _looserTableViewModel.gameObject.SetActive(true);
+                _looserTableViewModel.Text = score.ToString();
+            }
         }
 
         private bool _allPlayersLoadedLevel;
+        private bool _isLose;
+        private GameObject _localPlayer;
     }
 }

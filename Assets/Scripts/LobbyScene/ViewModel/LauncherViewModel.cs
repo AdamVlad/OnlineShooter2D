@@ -64,29 +64,27 @@ namespace Assets.Scripts.LobbyScene.ViewModel
                 GameObject entry = Instantiate(_canvasModel.PlayerListEntryPanel.Panel);
                 entry.transform.SetParent(_canvasModel.InsideRoomPanel.Panel.transform);
                 entry.transform.localScale = Vector3.one;
-                entry.GetComponent<PlayerListEntry>().Initialize(player.NickName);
+                entry.GetComponent<PlayerListEntry>().Initialize(player.NickName, player.ActorNumber);
 
                 _playerListEntries.Add(player.ActorNumber, entry);
             }
 
             Hashtable props = new Hashtable
             {
-                {NetworkPlayerInfo.PlayerLoadedLevel, false}
+                {NetworkPlayerInfo.PlayerLoadedLevel, false},
+                {NetworkPlayerInfo.IsAlive, true}
             };
 
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-            if (!PhotonNetwork.IsMasterClient)
-            {
-                _canvasModel.StartGameButton.SetActive(false);
-            }
+            ActivateStartButtonIfNeedIt();
 
             JoinLobby(false);
         }
 
         public override void OnLeftRoom()
         {
-            _canvasModel?.SetActivePanel(_canvasModel.CreateOrJoinRoomPanel.Panel.name);
+            _canvasModel?.SetActivePanel(_canvasModel.CreateOrJoinRoomPanel?.Panel?.name);
 
             foreach (GameObject entry in _playerListEntries.Values)
             {
@@ -104,9 +102,11 @@ namespace Assets.Scripts.LobbyScene.ViewModel
             GameObject entry = Instantiate(_canvasModel.PlayerListEntryPanel.Panel);
             entry.transform.SetParent(_canvasModel.InsideRoomPanel.Panel.transform);
             entry.transform.localScale = Vector3.one;
-            entry.GetComponent<PlayerListEntry>().Initialize(newPlayer.NickName);
+            entry.GetComponent<PlayerListEntry>().Initialize(newPlayer.NickName, newPlayer.ActorNumber);
 
             _playerListEntries.Add(newPlayer.ActorNumber, entry);
+
+            ActivateStartButtonIfNeedIt();
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -115,6 +115,8 @@ namespace Assets.Scripts.LobbyScene.ViewModel
             {
                 Destroy(playerListEntry);
                 _playerListEntries.Remove(otherPlayer.ActorNumber);
+
+                ActivateStartButtonIfNeedIt();
             }
         }
 
@@ -122,7 +124,7 @@ namespace Assets.Scripts.LobbyScene.ViewModel
         {
             if (PhotonNetwork.LocalPlayer.ActorNumber == newMasterClient.ActorNumber)
             {
-                _canvasModel.StartGameButton.SetActive(true);
+                ActivateStartButtonIfNeedIt();
             }
         }
 
@@ -184,6 +186,18 @@ namespace Assets.Scripts.LobbyScene.ViewModel
                 case false when PhotonNetwork.InLobby:
                     PhotonNetwork.LeaveLobby();
                     break;
+            }
+        }
+
+        private void ActivateStartButtonIfNeedIt()
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                _canvasModel.StartGameButton.SetActive(_playerListEntries.Count >= 2);
+            }
+            else
+            {
+                _canvasModel.StartGameButton.SetActive(false);
             }
         }
     }

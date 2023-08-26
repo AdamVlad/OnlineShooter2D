@@ -13,6 +13,7 @@ namespace Assets.Scripts.BattleScene.Model.Abilities
     {
         private PhotonView _photonView;
         private IHpBarViewModel _hpBar;
+        private float _currentHealth;
 
         private void Awake()
         {
@@ -26,9 +27,12 @@ namespace Assets.Scripts.BattleScene.Model.Abilities
         {
             if (damage < 0) return;
 
-            _hpBar.Fill -= (Single)(damage / 100);
+            _currentHealth -= damage;
+            _hpBar.Fill = (Single)(_currentHealth / 100);
 
-            //if (_hpBar.CurrentHealth > 0) return;
+            if (!_photonView.IsMine || _currentHealth > 0) return;
+
+            _photonView.RPC("Die", RpcTarget.All);
         }
 
         private void InitializeHpBar()
@@ -46,6 +50,7 @@ namespace Assets.Scripts.BattleScene.Model.Abilities
                 _hpBar = GameObject.Find("HudCanvas").GetComponent<HpBarViewModel>();
             }
 
+            _currentHealth = 100;
             _hpBar.Fill = 1;
         }
     }

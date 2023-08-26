@@ -338,3 +338,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerNameText: {fileID: 11470916}
+  _playerColorImage: {fileID: 11495884}

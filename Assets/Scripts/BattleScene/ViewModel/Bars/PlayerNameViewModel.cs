@@ -1,10 +1,11 @@
+using Assets.Scripts.BattleScene.ViewModel.Bars.Interfaces;
 using Assets.Scripts.LobbyScene.ViewModel.Base;
 using UnityWeld.Binding;
 
 namespace Assets.Scripts.BattleScene.ViewModel.Bars
 {
     [Binding]
-    internal class PlayerNameViewModel : PropertyViewModelBase
+    internal class PlayerNameViewModel : PropertyViewModelBase, IPlayerNameViewModel
     {
         private string _name;
 

@@ -3,6 +3,7 @@ using Assets.Scripts.BattleScene.Model.Abilities.Interfaces;
 using Assets.Scripts.BattleScene.ViewModel.Bars;
 using Assets.Scripts.BattleScene.ViewModel.Bars.Interfaces;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using UnityEngine;
 
 namespace Assets.Scripts.BattleScene.Model.Abilities
@@ -33,6 +34,8 @@ namespace Assets.Scripts.BattleScene.Model.Abilities
             {
                 CurrentCoins = _maxPickedUpCoinsPrice;
             }
+
+            _photonView.Owner.AddScore((int)price);
 
             if (_coinsViewModel == null) return;
 

@@ -20,5 +20,10 @@ namespace Assets.Scripts.BattleScene.Extensions
                    throw new MissingComponentException(
                        $"Component {typeof(T)} not set on the children component from game object with name {gameObject.name}");
         }
+
+        public static T TryGetComponentWithoutException<T>(this GameObject gameObject) where T : Component
+        {
+            return !gameObject.TryGetComponent<T>(out var component) ? null : component;
+        }
     }
 }
