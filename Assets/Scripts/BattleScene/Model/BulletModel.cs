@@ -1,22 +1,25 @@
-﻿using Assets.Scripts.BattleScene.Model.Settings;
-
+﻿using Assets.Scripts.BattleScene.Model.Abilities.Interfaces;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-namespace Assets.Scripts.BattleScene.ViewModel
+namespace Assets.Scripts.BattleScene.Model
 {
     [RequireComponent(
         typeof(Rigidbody2D),
         typeof(CircleCollider2D))]
-    internal class BulletViewModel : MonoBehaviour
+    internal class BulletModel : MonoBehaviour
     {
-        [SerializeField] private PlayerSettings _playerSettings;
-
-        public void Initialize(Vector2 direction, Player owner)
+        public void Initialize(
+            Vector2 direction,
+            Player owner,
+            float shootPower,
+            float damage)
         {
             _direction = direction.normalized;
             _owner = owner;
+            _shootPower = shootPower;
+            _damage = damage;
         }
 
         private void Start()
@@ -27,8 +30,8 @@ namespace Assets.Scripts.BattleScene.ViewModel
         private void FixedUpdate()
         {
             transform.position += new Vector3(
-                _direction.x * _playerSettings.ShootPower,
-                _direction.y * _playerSettings.ShootPower,
+                _direction.x * _shootPower,
+                _direction.y * _shootPower,
                 0);
         }
 
@@ -38,9 +41,10 @@ namespace Assets.Scripts.BattleScene.ViewModel
             {
                 if (Equals(photonView.Owner, _owner)) return;
 
-                if (Equals(photonView.Owner, PhotonNetwork.LocalPlayer))
+                if (Equals(photonView.Owner, PhotonNetwork.LocalPlayer) && 
+                    other.TryGetComponent<ITakeDamageAbility>(out _))
                 {
-                    photonView.RPC("TakeDamage", RpcTarget.AllViaServer, _playerSettings.ShootDamage);
+                    photonView.RPC("TakeDamage", RpcTarget.AllViaServer, _damage);
                 }
             }
 
@@ -49,5 +53,7 @@ namespace Assets.Scripts.BattleScene.ViewModel
 
         private Vector2 _direction;
         private Player _owner;
+        private float _shootPower;
+        private float _damage;
     }
 }

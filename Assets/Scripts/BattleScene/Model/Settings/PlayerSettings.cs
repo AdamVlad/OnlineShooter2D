@@ -14,8 +14,8 @@ namespace Assets.Scripts.BattleScene.Model.Settings
         [Space]
         [Header("Shoot Settings")]
 
-        [SerializeField] private BulletViewModel _bullet;
-        public BulletViewModel Bullet => _bullet;
+        [SerializeField] private BulletModel _bullet;
+        public BulletModel Bullet => _bullet;
 
         [SerializeField] private float _shootPower = 0.2f;
         public float ShootPower => _shootPower;

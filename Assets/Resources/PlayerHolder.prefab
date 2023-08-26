@@ -178,6 +178,9 @@ GameObject:
   - component: {fileID: 1449364986}
   - component: {fileID: 5662929157330959691}
   - component: {fileID: 1551379979926855518}
+  - component: {fileID: 6446485887357187588}
+  - component: {fileID: -9010142881650297655}
+  - component: {fileID: -355858350916374252}
   - component: {fileID: 1575147216950927011}
   - component: {fileID: 1079382002580645893}
   m_Layer: 6
@@ -255,6 +258,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSettings: {fileID: 11400000, guid: f7645e57977fdc649ac28fd6efef8072, type: 2}
+--- !u!114 &6446485887357187588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551379979926855506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 378dfc345bfe61245b54f5a5dc79e525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxPickedUpCoinsPrice: 13
+--- !u!114 &-9010142881650297655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551379979926855506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00752e5fe473bec478984406842ad687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerSettings: {fileID: 11400000, guid: f7645e57977fdc649ac28fd6efef8072, type: 2}
+--- !u!114 &-355858350916374252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551379979926855506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03aefbd6ac54a04db48568c4194c3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1575147216950927011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,7 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: Assets.Scripts.BattleScene.ViewModel.PlayerNameViewModel.Name
+  viewModelPropertyName: Assets.Scripts.BattleScene.ViewModel.Bars.PlayerNameViewModel.Name
   viewPropertyName: TMPro.TextMeshProUGUI.text
 --- !u!1 &5165893210795597706
 GameObject:
@@ -743,7 +784,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewAdapterTypeName: 
   viewAdapterOptions: {fileID: 0}
-  viewModelPropertyName: Assets.Scripts.BattleScene.ViewModel.HpBarViewModel.Fill
+  viewModelPropertyName: Assets.Scripts.BattleScene.ViewModel.Bars.HpBarViewModel.Fill
   viewPropertyName: UnityEngine.UI.Image.fillAmount
 --- !u!1 &8479374644225619424
 GameObject:

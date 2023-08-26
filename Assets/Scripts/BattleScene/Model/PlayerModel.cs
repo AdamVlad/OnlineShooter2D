@@ -4,18 +4,17 @@ using Assets.Scripts.BattleScene.Model.Settings;
 using Assets.Scripts.BattleScene.Model.States;
 using Assets.Scripts.BattleScene.Model.States.Base;
 using Assets.Scripts.BattleScene.Model.States.Interfaces;
-
+using Assets.Scripts.BattleScene.ViewModel.Bars;
 using Photon.Pun;
-using System;
 using UnityEngine;
 
-namespace Assets.Scripts.BattleScene.ViewModel
+namespace Assets.Scripts.BattleScene.Model
 {
     [RequireComponent(
         typeof(CapsuleCollider2D),
         typeof(Rigidbody2D),
         typeof(PhotonView))]
-    internal class PlayerViewModel : MonoBehaviour
+    internal class PlayerModel : MonoBehaviour
     {
         [SerializeField] private PlayerSettings _playerSettings;
 
@@ -27,15 +26,12 @@ namespace Assets.Scripts.BattleScene.ViewModel
         private StateBase _walkState;
         private StateBase _shootState;
 
-        private HpBarViewModel _hpBar;
-
         private void Awake()
         {
             _photonView = GetComponent<PhotonView>();
             
             InitializeInput();
             InitializeStates();
-            InitializeHpBar();
             InitializePlayerName();
         }
 
@@ -86,24 +82,6 @@ namespace Assets.Scripts.BattleScene.ViewModel
             _stateMachine?.ChangeState(_idleState);
         }
 
-        [PunRPC]
-        private void Shoot(Vector3 position, Vector2 direction)
-        {
-            Debug.Log("Shoot");
-
-            var shiftedPosition = new Vector3(position.x, position.y + 0.7f, position.z);
-            var bullet = Instantiate(_playerSettings.Bullet, shiftedPosition, Quaternion.identity);
-            bullet.Initialize(direction, _photonView.Owner);
-        }
-
-        [PunRPC]
-        private void TakeDamage(float damage)
-        {
-            _hpBar.Fill -= (Single)(damage / 100);
-
-            //if (_hpBar.CurrentHealth > 0) return;
-        }
-
         #region Initialize
 
         private void InitializeInput()
@@ -127,24 +105,6 @@ namespace Assets.Scripts.BattleScene.ViewModel
             _shootState = new ShootState(animator, gameObject.transform, _photonView, _playerInput, _playerSettings, _stateMachine);
 
             _stateMachine.Initialize(_idleState);
-        }
-
-        private void InitializeHpBar()
-        {
-            var ownHpBar = gameObject.TryGetComponentInChildrenOrThrowException<HpBarViewModel>();
-
-            if (!_photonView.AmOwner)
-            {
-                _hpBar = ownHpBar;
-            }
-            else
-            {
-                Destroy(ownHpBar.gameObject);
-                ownHpBar.enabled = false;
-                _hpBar = GameObject.Find("HudCanvas").GetComponent<HpBarViewModel>();
-            }
-
-            _hpBar.Fill = 1;
         }
 
         private void InitializePlayerName()

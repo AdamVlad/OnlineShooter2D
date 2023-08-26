@@ -1,4 +1,3 @@
-using Assets.Scripts.BattleScene.ViewModel;
 using Assets.Scripts.LobbyScene.Model.Network;
 
 using Cinemachine;
@@ -14,6 +13,9 @@ namespace Assets.Scripts.BattleScene.GameEntryPoint
     {
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private Transform[] _playersSpawnPositions;
+
+        [SerializeField] private GameObject _coinPrefab;
+        [SerializeField] private Transform[] _coinsSpawnPositions;
 
         [SerializeField] private CinemachineVirtualCamera _camera;
 
@@ -40,10 +42,16 @@ namespace Assets.Scripts.BattleScene.GameEntryPoint
 
         private void StartGame()
         {
-            var actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-            var countSpawnPositions = _playersSpawnPositions.Length;
+            SpawnPlayers();
+            SpawnCoins();
+        }
 
-            if (0 < actorNumber && actorNumber <= countSpawnPositions)
+        private void SpawnPlayers()
+        {
+            var actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+            var countPlayerSpawnPositions = _playersSpawnPositions.Length;
+
+            if (0 < actorNumber && actorNumber <= countPlayerSpawnPositions)
             {
                 var spawnPosition = _playersSpawnPositions[actorNumber - 1];
 
@@ -57,6 +65,20 @@ namespace Assets.Scripts.BattleScene.GameEntryPoint
             else
             {
                 Debug.Log("Creating player error");
+            }
+        }
+
+        private void SpawnCoins()
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                foreach (var spawnPosition in _coinsSpawnPositions)
+                {
+                    PhotonNetwork.InstantiateRoomObject(
+                        _coinPrefab.name,
+                        spawnPosition.position,
+                        Quaternion.identity);
+                }
             }
         }
 
@@ -85,14 +107,6 @@ namespace Assets.Scripts.BattleScene.GameEntryPoint
         public override void OnLeftRoom()
         {
             PhotonNetwork.Disconnect();
-        }
-
-        public override void OnMasterClientSwitched(Player newMasterClient)
-        {
-            if (PhotonNetwork.LocalPlayer.ActorNumber == newMasterClient.ActorNumber)
-            {
-                //StartCoroutine(SpawnAsteroid());
-            }
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
