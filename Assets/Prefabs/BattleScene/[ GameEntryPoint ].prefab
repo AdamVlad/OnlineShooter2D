@@ -97,5 +97,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _scoreViewModel: {fileID: 0}
   _camera: {fileID: 0}
+  _winnerTableViewModel: {fileID: 0}
+  _looserTableViewModel: {fileID: 0}

@@ -54,6 +54,7 @@ namespace Assets.Scripts.LobbyScene.ViewModel
         public override void OnJoinedRoom()
         {
             _cachedRoomList.Clear();
+            _canvasModel.SetConnectionStatus(string.Empty);
 
             _canvasModel.SetActivePanel(_canvasModel.InsideRoomPanel.Panel.name);
 
@@ -80,6 +81,11 @@ namespace Assets.Scripts.LobbyScene.ViewModel
             ActivateStartButtonIfNeedIt();
 
             JoinLobby(false);
+        }
+
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            _canvasModel.SetConnectionStatus("Connection failed. Please try in 5 seconds");
         }
 
         public override void OnLeftRoom()

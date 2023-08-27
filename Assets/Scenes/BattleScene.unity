@@ -1051,10 +1051,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1270433143}
     - target: {fileID: 5827940876121630157, guid: c17a2f70936edef459175e39e1dcc438, type: 3}
-      propertyPath: _scoreViewModel
-      value: 
-      objectReference: {fileID: 4481560768386735507}
-    - target: {fileID: 5827940876121630157, guid: c17a2f70936edef459175e39e1dcc438, type: 3}
       propertyPath: _looserTableViewModel
       value: 
       objectReference: {fileID: 7012683843852193112}

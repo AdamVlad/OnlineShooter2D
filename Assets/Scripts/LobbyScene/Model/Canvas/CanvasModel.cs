@@ -34,5 +34,10 @@ namespace Assets.Scripts.LobbyScene.Model.Canvas
             CreateOrJoinRoomPanel.Panel.SetActive(activePanel.Equals(CreateOrJoinRoomPanel.Panel.name));
             InsideRoomPanel.Panel.SetActive(activePanel.Equals(InsideRoomPanel.Panel.name));
         }
+
+        public void SetConnectionStatus(string text)
+        {
+            CreateOrJoinRoomPanel.ConnectionToRoomStatus = text;
+        }
     }
 }

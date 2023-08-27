@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.LobbyScene.Model.Canvas;
 using Assets.Scripts.LobbyScene.Model.Canvas.Interfaces;
+using Assets.Scripts.LobbyScene.ViewModel.Fields;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -9,6 +10,10 @@ namespace Assets.Scripts.LobbyScene.GameEntryPoint
 {
     internal sealed class CanvasInstaller : MonoInstaller
     {
+        [Header("ViewModels")]
+        [SerializeField]
+        [FormerlySerializedAs("Connection To Room VM")] private ConnectionToRoomStatusViewModel _connectionToRoomViewModel;
+
         [Header("Login Panel")]
         [SerializeField]
         [FormerlySerializedAs("Login Panel")] private GameObject _loginPanel;
@@ -62,7 +67,9 @@ namespace Assets.Scripts.LobbyScene.GameEntryPoint
                 .Bind<ICreateOrJoinRoomPanel>()
                 .To<CreateOrJoinRoomPanel>()
                 .AsSingle()
-                .WithArguments(_createOrJoinRoomPanel);
+                .WithArguments(
+                    _createOrJoinRoomPanel,
+                    _connectionToRoomViewModel);
         }
 
         private void InsideRoomPanelInstall()

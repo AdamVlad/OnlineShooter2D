@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4790d1e50b272e4419913fbc1e88f0da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _connectionToRoomViewModel: {fileID: 0}
   _loginPanel: {fileID: 0}
   _createOrJoinRoomPanel: {fileID: 0}
   _insideRoomPanel: {fileID: 0}

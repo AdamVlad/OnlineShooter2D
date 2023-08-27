@@ -18,6 +18,16 @@ namespace Assets.Scripts.LobbyScene.ViewModel.Buttons
         {
             if (_networkRoomInfo.JoinedRoomName.IsEmpty()) return;
 
+            if (PhotonNetwork.NetworkingClient.State is
+                ClientState.Authenticating or
+                ClientState.ConnectingToGameServer or
+                ClientState.ConnectingToMasterServer or
+                ClientState.JoiningLobby or
+                ClientState.Joining)
+            {
+                return;
+            }
+
             RoomOptions options = new RoomOptions { MaxPlayers = 4, PlayerTtl = 10000 };
             PhotonNetwork.JoinOrCreateRoom(_networkRoomInfo.JoinedRoomName, options, null);
         }

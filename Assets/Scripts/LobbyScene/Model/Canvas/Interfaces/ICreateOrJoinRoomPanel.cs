@@ -2,5 +2,6 @@
 {
     internal interface ICreateOrJoinRoomPanel : IPanel
     {
+        string ConnectionToRoomStatus { get; set; }
     }
 }

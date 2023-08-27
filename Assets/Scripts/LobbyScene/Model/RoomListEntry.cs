@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,16 @@ namespace Assets.Scripts.LobbyScene.Model
         {
             _joinRoomButton.onClick.AddListener(() =>
             {
+                if (PhotonNetwork.NetworkingClient.State is
+                    ClientState.Authenticating or
+                    ClientState.ConnectingToGameServer or
+                    ClientState.ConnectingToMasterServer or
+                    ClientState.JoiningLobby or
+                    ClientState.Joining)
+                {
+                    return;
+                }
+
                 PhotonNetwork.JoinRoom(_roomName);
             });
         }
