@@ -10,5 +10,6 @@
         IButton StartGameButton{ get; }
 
         void SetActivePanel(string activePanel);
+        void SetConnectionStatus(string text);
     }
 }

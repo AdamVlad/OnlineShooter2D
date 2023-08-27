@@ -50,7 +50,7 @@ namespace Assets.Scripts.BattleScene.Model.Abilities
                 return;
             }
             
-            if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(NetworkPlayerInfo.IsAlive, out var isAlive))
+            if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(NetworkPlayerInfo.IsAlive, out _))
             {
                 PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable
                 {

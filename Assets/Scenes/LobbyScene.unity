@@ -251,30 +251,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1144690622}
     m_Modifications:
-    - target: {fileID: 529772864455865223, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 529772864455865223, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 529772864455865223, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 529772864455865223, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 529772864455865223, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 529772864455865223, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6954596861353243496, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
       propertyPath: m_Name
       value: LauncherCanvas
@@ -361,30 +337,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6995781997864483004, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8100480785211070729, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8100480785211070729, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8100480785211070729, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8100480785211070729, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8100480785211070729, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8100480785211070729, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
-      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -484,6 +436,10 @@ PrefabInstance:
       propertyPath: _createOrJoinRoomPanel
       value: 
       objectReference: {fileID: 6127746610692827916}
+    - target: {fileID: 5107989517000907982, guid: 7114cf6b0974a2740babea5b0553e1e4, type: 3}
+      propertyPath: _connectionToRoomViewModel
+      value: 
+      objectReference: {fileID: 8334637995975252654}
     - target: {fileID: 5107989517465992168, guid: 7114cf6b0974a2740babea5b0553e1e4, type: 3}
       propertyPath: m_Name
       value: '[ GameEntyPoint ]'
@@ -549,6 +505,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6995781997864483004, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
   m_PrefabInstance: {fileID: 1350120771906494993}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8334637995975252654 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3696957891828323664, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
+  m_PrefabInstance: {fileID: 1350120771906494993}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cddcaf8473fd2249a77312371722c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8756625030504781300 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7726311786258167781, guid: 4f933c2914a55684e8000a9e72199d79, type: 3}
